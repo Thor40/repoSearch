@@ -9,6 +9,7 @@ fetch(apiUrl).then(function(response) {
     // request was successful
     if (response.ok) {
       response.json().then(function(data) {
+          // pass response data to dom function
         displayIssues(data);
   
         // check if api has paginated issues
@@ -54,8 +55,9 @@ var displayIssues = function(issues) {
 
         //append to container
         issueEl.appendChild(typeEl);
+        
+        issueContainerEl.appendChild(issueEl);
     }
-    issueContainerEl.appendChild(issueEl);
 };
 
 var displayWarning = function(repo) {
