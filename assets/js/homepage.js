@@ -26,7 +26,7 @@ var getUserRepos = function(user) {
 var displayRepos = function(repos, searchTerm) {
     //check if api retuned any repos
     if (repos.length === 0) {
-        repoContainerEl.textContent = "Ne repositories found.";
+        repoContainerEl.textContent = "No repositories found.";
         return;
     }
 
