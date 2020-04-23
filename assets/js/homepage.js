@@ -2,6 +2,8 @@ var userFormEl = document.querySelector("#user-form");
 var nameInputEl = document.querySelector("#username");
 var repoContainerEl = document.querySelector("#repos-container");
 var repoSearchTerm = document.querySelector("#repo-search-term");
+// button div with id selector so we dont make one for each button
+var languageButtonsEl = document.querySelector("#language-buttons");
 
 var getUserRepos = function(user) {
     //format the gitbuh api url
@@ -87,5 +89,38 @@ var formSubmitHandler = function(event) {
     console.log(event);
 };
 
+var getFeaturedRepos = function(language) {
+    var apiUrl = "https://api.github.com/search/repositories?q=" + language + "+is:featured&sort=help-wanted-issues";
+  // fetch response from URL
+    fetch(apiUrl).then(function(response) {
+        //if response is ok, return HTTP
+        if(response.ok) {
+            // extract JSON from response
+            response.json().then(function(data) {
+                displayRepos(data.items, language);
+            });
+        } // error handling if bad response
+        else {
+            alert("Error: " + response.statusText);
+        }
+    });
+};
+
+// event click handler for buttons
+var buttonClickHandler = function(event) {
+    //get the attribute of each button
+    var language = event.target.getAttribute("data-language");
+
+    if(language) {
+        //push language into get repo function
+        getFeaturedRepos(language);
+
+        //clear old content
+        repoContainerEl.textContent = "";
+    }
+    console.log(language);
+}
 
 userFormEl.addEventListener("submit", formSubmitHandler);
+//even listener for language button
+languageButtonsEl.addEventListener("click", buttonClickHandler);
